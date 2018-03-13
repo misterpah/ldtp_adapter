@@ -3,12 +3,13 @@ def ldtp_me(name,roleName):
 	if roleName == "frame":
 		ret = "frm"+name
 	elif roleName == "dialog":
-		ret = "dlg"+name
+		ret = "frm"+name
 	elif roleName == "label":
 		ret = "lbl"+name	
 	elif roleName == "panel":
 		ret = "pnl"+name			
 	elif roleName == "text":
+		name = name.replace(":","")
 		ret = "txt"+name	
 	elif roleName == "separator":
 		ret = "seperator"+name			
@@ -54,3 +55,6 @@ def getobjectlist(window):
 	for each in pyacc.getObjectList(window):
 		ret.append(ldtp_me(each[0]['name'],each[0]['role']))
 	return ret	
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
