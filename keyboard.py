@@ -1,53 +1,63 @@
 import re
-def _find_key(keyString):
+def find_key(keyString):
     k = PyKeyboard()
     key_to_press = None
     highest = 0
-    if keyString.startswith("<"):
-        cur_key = keyString[1:-1]
-        for each in dir(k):
-            if each.endswith("_key"):
-                if similar(cur_key + "_key" ,each) > highest:
-                    highest = similar(cur_key + "_key" ,each)
-                    key_to_press = getattr(k,each)
-    else:
-        key_to_press = keyString
-        #key_to_press = k.lookup_character_keycode(keyString)
-        #if keyString == "_":
-        #    key_to_press = [k.shift_key,k.lookup_character_keycode(keyString)]
-            
-        
+    for each in dir(k):
+        if each.endswith("_key"):
+            if similar(keyString + "_key" ,each) > highest:
+                highest = similar(keyString + "_key" ,each)
+                key_to_press = getattr(k,each)
     return key_to_press
     
 def keypress(key):
     k = PyKeyboard()
-    key_to_press = _find_key(key)
+    key_to_press = find_key(key)
+    #print key_to_press
     if key_to_press != None:
-        k.press_key(key_to_press)
+        try:
+            k.press_key(key_to_press)
+        except TypeError:
+            for each in key_to_press:
+                k.press_key(each)
 
 def keyrelease(key):
-
     k = PyKeyboard()
-    key_to_press = _find_key(key)
+    key_to_press = find_key(key)
     if key_to_press != None:
-        k.release_key(key_to_press)
+        try:
+            k.release_key(key_to_press)
+        except TypeError:
+            for each in key_to_press:
+                k.release_key(each)        
 
-def _press_key(key):
-    keypress(key)
-    keyrelease(key)
+def _press_key(key_int):
+    k = PyKeyboard()
+    k.tap_key(key_int)
     time.sleep(0.3)
 
+def regex_keystring(string):
+    regex = r"<(.*?)>"
+    for each in re.finditer(regex,string):
+        string = string.replace(each.group(0),";"+each.group(1)+";")
+    return string.split(";")
+
 def generatekeyevent(key):
-    #print "{} :not implemented yet".format(sys._getframe().f_code.co_name)
-    key_to_press =[]
-    if key.startswith("<"):
-        regex = r"(<.[^(><.)]+>)"
-        key = re.findall(regex,key)
+    k = PyKeyboard()
+    key = regex_keystring(key)
+    if len(key) == 1:
+        for cur in key[0]:
+            k.tap_key(cur)
+            time.sleep(0.3)
     for each in key:
-        key_to_press.append(_find_key(each))
-    try:
-        for each in key_to_press:
-            _press_key(each)
-    except TypeError:
-        _press_key(key_to_press)
+        if each == "":
+            continue
+        cur_key = find_key(each)
+        if cur_key == None:
+            for cur in each:
+                k.tap_key(cur)
+                time.sleep(0.3)
+        else:
+            k.tap_key(cur_key)
+            time.sleep(0.3)
 
