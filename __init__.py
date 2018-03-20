@@ -4,6 +4,14 @@ from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 from difflib import SequenceMatcher
 
+MOUSEDELAY=0.3
+
+def log(*string):
+    print string
+
+def debug(*string):
+    print string
+
 ldtp_pyaccessibility_path = os.path.dirname(os.path.abspath(__file__))
 files_in_folders = os.listdir(ldtp_pyaccessibility_path)
 for each in files_in_folders:
