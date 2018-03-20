@@ -14,7 +14,7 @@ def ldtp_me(name,roleName):
 	elif roleName == "separator":
 		ret = "seperator"+name			
 	elif roleName == "menu item":
-		ret = "mnuItem"+name		
+		ret = "mnu"+name		
 	elif roleName == "list":
 		ret = "lst"+name
 	elif roleName == "list item":
@@ -48,8 +48,19 @@ def getwindowlist():
 		ret.append(ldtp_me(each['name'],each['role']))
 	return ret
 
-	
+def getobjectproperty(window,object,property):
+    print "{} :not FULLY implemented yet".format(sys._getframe().f_code.co_name)
+    ret = None
+    try:
+        objectHandle = pyacc.getObject(window,object)
+        #print objectHandle['handle']
+        ret = True
+    except TypeError:
+        ret = False
+        raise client_exception.LdtpExecutionError
+    return ret
 
+       
 def getobjectlist(window):
 	ret = []
 	for each in pyacc.getObjectList(window):
