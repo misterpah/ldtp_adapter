@@ -1,5 +1,5 @@
 def mousemove(window,object,handle=None):
-	debug(window,object)
+	debug("mousemove",window,object)
 	pyacc.mouseMove(window,object,handle)
 	time.sleep(MOUSEDELAY)
 
@@ -10,7 +10,7 @@ def mouseleftclick(window,object):
     time.sleep(MOUSEDELAY)
 
 def click(window,object):
-	debug(window,object)
+	debug("click",window,object)
 	pyacc.mouseClick(window,object)
 	time.sleep(MOUSEDELAY)
 			

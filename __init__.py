@@ -3,14 +3,17 @@ import pyaccessibility as pyacc
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 from difflib import SequenceMatcher
+import jellyfish
 
 MOUSEDELAY=0.3
+DEBUG = True
 
 def log(*string):
     print string
 
 def debug(*string):
-    print string
+    if DEBUG:
+        print string
 
 ldtp_pyaccessibility_path = os.path.dirname(os.path.abspath(__file__))
 files_in_folders = os.listdir(ldtp_pyaccessibility_path)

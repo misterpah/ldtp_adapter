@@ -49,16 +49,28 @@ def getwindowlist():
 	return ret
 
 def getobjectproperty(window,object,property):
-    print "{} :not FULLY implemented yet".format(sys._getframe().f_code.co_name)
-    ret = None
-    try:
-        objectHandle = pyacc.getObject(window,object)
-        #print objectHandle['handle']
-        ret = True
-    except TypeError:
-        ret = False
-        raise client_exception.LdtpExecutionError
-    return ret
+	print "{} :not Fully implemented yet".format(sys._getframe().f_code.co_name)
+	ret = None
+	if property == "label":
+		objHandle = getobjecthandle(window,object)
+		ret = objHandle.get('name')
+	return ret
+
+def getobjecthandle(window,objectName):
+	ret = None
+	similar_index = 0
+	for each in pyacc.getObjectList(window):
+	    ldtp_name = ldtp_me(each[0]['name'],each[0]['role'])
+	    if ldtp_name == objectName:
+	        ret = each[0]
+
+	if ret == None:
+	    for each in pyacc.getObjectList(window):
+			ldtp_name = ldtp_me(each[0]['name'],each[0]['role'])
+			if similar(objectName,ldtp_name) > similar_index:
+				similar_index = similar(objectName,ldtp_name)
+				ret = each[0]
+	return ret
 
        
 def getobjectlist(window):
@@ -68,4 +80,4 @@ def getobjectlist(window):
 	return ret	
 
 def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
+    return jellyfish.jaro_distance(unicode(a,"utf-8"),unicode(b,"utf-8"))

@@ -8,4 +8,5 @@ class client_exception(Exception):
         Exception.__init__(self,*args,**kwargs)
         
         
-
+class ADAPTER_ERROR(Exception):
+    pass

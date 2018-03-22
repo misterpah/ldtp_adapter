@@ -49,15 +49,16 @@ def generatekeyevent(key):
         for cur in key[0]:
             k.tap_key(cur)
             time.sleep(0.3)
-    for each in key:
-        if each == "":
-            continue
-        cur_key = find_key(each)
-        if cur_key == None:
-            for cur in each:
-                k.tap_key(cur)
+    else:
+        for each in key:
+            if each == "":
+                continue
+            cur_key = find_key(each)
+            if cur_key == None:
+                for cur in each:
+                    k.tap_key(cur)
+                    time.sleep(0.3)
+            else:
+                k.tap_key(cur_key)
                 time.sleep(0.3)
-        else:
-            k.tap_key(cur_key)
-            time.sleep(0.3)
 
