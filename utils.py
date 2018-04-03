@@ -81,3 +81,8 @@ def getobjectlist(window):
 
 def similar(a, b):
     return jellyfish.jaro_distance(unicode(a,"utf-8"),unicode(b,"utf-8"))
+
+def getobjectnameatcoords(wait_time=0.0):
+	sleep(wait_time)
+	m = PyMouse()
+	pos = m.position()

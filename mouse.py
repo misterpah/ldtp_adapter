@@ -25,3 +25,4 @@ def ldtp_extend_mouse_right_click_here():
 	pos = m.position()
 	m.click(pos[0],pos[1],2)
 	time.sleep(MOUSEDELAY)
+

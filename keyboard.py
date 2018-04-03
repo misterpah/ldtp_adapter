@@ -12,24 +12,23 @@ def find_key(keyString):
     
 def keypress(key):
     k = PyKeyboard()
-    key_to_press = find_key(key)
-    #print key_to_press
-    if key_to_press != None:
-        try:
-            k.press_key(key_to_press)
-        except TypeError:
-            for each in key_to_press:
-                k.press_key(each)
+    keys_to_press = regex_keystring(key)
+    key_to_press = []
+    for each in keys_to_press:
+        key_to_press.append(find_key(each))
+    # pressing time
+    for each in key_to_press:
+        k.press_key(each)
 
 def keyrelease(key):
     k = PyKeyboard()
-    key_to_press = find_key(key)
-    if key_to_press != None:
-        try:
-            k.release_key(key_to_press)
-        except TypeError:
-            for each in key_to_press:
-                k.release_key(each)        
+    keys_to_press = regex_keystring(key)
+    key_to_press = []
+    for each in keys_to_press:
+        key_to_press.append(find_key(each))
+    # pressing time
+    for each in key_to_press:
+        k.release_key(each)
 
 def _press_key(key_int):
     k = PyKeyboard()
@@ -37,6 +36,21 @@ def _press_key(key_int):
     time.sleep(0.3)
 
 def regex_keystring(string):
+    regex = r"<([A-Za-z]*)>"
+    working_string = string
+    result = []
+    loop = True
+    while loop:
+        if len(working_string) > 0:
+            found = re.match(regex,working_string)
+            result.append(found.group(1))
+            start = len(found.group(0))
+            working_string = working_string[start:]
+        else:
+            loop = False
+    return result
+
+def regex_generatekeyevent(string):
     regex = r"<(.*?)>"
     for each in re.finditer(regex,string):
         string = string.replace(each.group(0),";"+each.group(1)+";")
@@ -44,7 +58,7 @@ def regex_keystring(string):
 
 def generatekeyevent(key):
     k = PyKeyboard()
-    key = regex_keystring(key)
+    key = regex_generatekeyevent(key)
     if len(key) == 1:
         for cur in key[0]:
             k.tap_key(cur)

@@ -5,7 +5,7 @@ from pykeyboard import PyKeyboard
 from difflib import SequenceMatcher
 import jellyfish
 
-MOUSEDELAY=0.3
+MOUSEDELAY=0.5
 DEBUG = True
 
 def log(*string):
