@@ -83,6 +83,48 @@ def similar(a, b):
     return jellyfish.jaro_distance(unicode(a,"utf-8"),unicode(b,"utf-8"))
 
 def getobjectnameatcoords(wait_time=0.0):
-	sleep(wait_time)
+	time.sleep(wait_time)
+	ret = []
+	output = _getobjectnameatcoords()
+	ret.append(output['window'])
+	ret.append(output['name'])
+	return ret
+
+def _getobjectnameatcoords():
+	#get active window
+	active_window = pyacc.getActiveWindow()['name']
+	highest = 0
+	cur_highest = None
+	for each in getwindowlist():
+		if similar(each,active_window) > highest:
+			highest = similar(each,active_window)
+			cur_highest = each
+	windowName = cur_highest
+
 	m = PyMouse()
 	pos = m.position()
+	
+	# checking if mouse can detect object at mouse position
+	output = []
+	for each in pyacc.getObjectList(windowName):
+		handle = each[0]['handle']
+		name = ldtp_me(each[0]['name'],each[0]['role'])
+		rect = pyacc.getObjectRect(handle)
+		if pos[0] > rect['x'][0]:
+			if pos[0] <= rect['x'][1]:
+				if pos[1] > rect['y'][0]:
+					if pos[1] <= rect['y'][1]:
+						output.append({"handle":handle,"name":name,"rect":rect})
+	
+	final_output = None
+	for each in output:
+		if each['handle'].getChildCount() == 0:
+			final_output = each
+	final_output['window'] = windowName
+	return final_output
+	"""
+	for each in getobjectlist(windowName):
+	    size = handle.queryComponent().getSize()
+	    pos = handle.queryComponent().getPosition(pyatspi.DESKTOP_COORDS)
+	"""
+	
