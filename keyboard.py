@@ -18,6 +18,7 @@ def keypress(key):
         key_to_press.append(find_key(each))
     # pressing time
     for each in key_to_press:
+        
         k.press_key(each)
 
 def keyrelease(key):
@@ -42,10 +43,15 @@ def regex_keystring(string):
     loop = True
     while loop:
         if len(working_string) > 0:
-            found = re.match(regex,working_string)
-            result.append(found.group(1))
-            start = len(found.group(0))
-            working_string = working_string[start:]
+            try:
+                found = re.match(regex,working_string)
+                result.append(found.group(1))
+                start = len(found.group(0))
+                working_string = working_string[start:]
+            except AttributeError:
+                # not found
+                result.append(working_string)
+                working_string = ""
         else:
             loop = False
     return result
