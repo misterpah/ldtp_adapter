@@ -19,10 +19,6 @@ def debug(*string):
     if DEBUG:
         print string
 
-def interactive():
-    code.interact(local=locals())
-
-
 ldtp_pyaccessibility_path = os.path.dirname(os.path.abspath(__file__))
 files_in_folders = os.listdir(ldtp_pyaccessibility_path)
 for each in files_in_folders:

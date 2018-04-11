@@ -18,7 +18,6 @@ def keypress(key):
         key_to_press.append(find_key(each))
     # pressing time
     for each in key_to_press:
-        
         k.press_key(each)
 
 def keyrelease(key):

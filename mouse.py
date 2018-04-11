@@ -1,16 +1,20 @@
 def mousemove(window,object,handle=None):
 	debug("mousemove",window,object)
+	window = reverse_ldtp_me(window)
+	object = reverse_ldtp_me(object)
 	pyacc.mouseMove(window,object,handle)
 	time.sleep(MOUSEDELAY)
 
 def mouseleftclick(window,object):
-    debug(window,object)
+    #debug(window,object)
     click(window,object)
-    log("{} :not implemented yet".format(sys._getframe().f_code.co_name))
     time.sleep(MOUSEDELAY)
+    return 1
 
 def click(window,object):
-	debug("click",window,object)
+	#debug("click",window,object)
+	window = reverse_ldtp_me(window)
+	object = reverse_ldtp_me(object)	
 	pyacc.mouseClick(window,object)
 	time.sleep(MOUSEDELAY)
 			
