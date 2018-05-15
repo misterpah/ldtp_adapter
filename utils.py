@@ -17,9 +17,9 @@ ldtp_table.append(["table cell","tblc"])
 ldtp_table.append(["radio button","rbtn"])
 ldtp_table.append(["page tab","tab"])
 ldtp_table.append(["table column header","tblHeader"])
+ldtp_table.append(["table column header","hdr"])
 
 def reverse_ldtp_me(ldtp_name):
-	#print ldtp_name
 	name = ldtp_name
 	role = "unknown"
 	for each in ldtp_table:
@@ -27,6 +27,14 @@ def reverse_ldtp_me(ldtp_name):
 			role = each[0]
 			prefix = each[1]
 			name = ldtp_name.replace(prefix,"")
+	if role == "menu item":
+		regex = r"(Shift|Alt|Ctrl).*$"
+		name2 = re.sub(regex,"",name)
+		name = name2
+	if role == "push button":
+		regex = r"(Enter).*$"
+		name2 = re.sub(regex,"",name)
+		name = name2		
 	return {"name":name,"role":role}
 	
 
@@ -162,7 +170,6 @@ def search_object_under_mouse(wait_time=0.0,filter=None):
 	else:
 		for each in output:
 			temp = reverse_ldtp_me(each['name'])
-			print temp
 			for each2 in ldtp_table:
 				if temp['role'] == each2[0]:
 					if filter == each2[0]:

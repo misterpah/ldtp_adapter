@@ -15,7 +15,10 @@ def keypress(key):
     keys_to_press = regex_keystring(key)
     key_to_press = []
     for each in keys_to_press:
-        key_to_press.append(find_key(each))
+        if len(each) > 1:
+            key_to_press.append(find_key(each))
+        else:
+            key_to_press.append(each)
     # pressing time
     for each in key_to_press:
         k.press_key(each)
@@ -25,7 +28,10 @@ def keyrelease(key):
     keys_to_press = regex_keystring(key)
     key_to_press = []
     for each in keys_to_press:
-        key_to_press.append(find_key(each))
+        if len(each) > 1:
+            key_to_press.append(find_key(each))
+        else:
+            key_to_press.append(each)
     # pressing time
     for each in key_to_press:
         k.release_key(each)

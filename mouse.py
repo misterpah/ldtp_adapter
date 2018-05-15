@@ -14,7 +14,8 @@ def mouseleftclick(window,object):
 def click(window,object):
 	#debug("click",window,object)
 	window = reverse_ldtp_me(window)
-	object = reverse_ldtp_me(object)	
+	object = reverse_ldtp_me(object)
+	#print window , object	
 	pyacc.mouseClick(window,object)
 	time.sleep(MOUSEDELAY)
 			
